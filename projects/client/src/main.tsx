@@ -18,11 +18,18 @@ type Route = {
 	};
 };
 
-const routes: Route[] = [
+const authenticatedRoutes: Route[] = [
 	{
 		path: "/",
 		element: <Home />,
 	},
+	{
+		path: "/*",
+		element: <Navigate to="/" />,
+	},
+];
+
+const loggedOutRoutes: Route[] = [
 	{
 		path: "/login",
 		element: <Auth isSignup={false} />,
@@ -32,6 +39,10 @@ const routes: Route[] = [
 			noSidebar: true,
 		},
 	},
+	{
+		path: "/*",
+		element: <Navigate to="/login" />,
+	},
 ];
 
 const AppContent: React.FC = () => {
@@ -39,24 +50,21 @@ const AppContent: React.FC = () => {
 
 	return (
 		<Routes>
-			{isAuthenticated ? (
-				routes.map(({ path, element, layoutOpts }) => (
-					<Route
-						key={path}
-						path={path}
-						element={<Layout options={layoutOpts}>{element}</Layout>}
-					/>
-				))
-			) : (
-				<>
-					<Route path="/login" element={<Auth isSignup={false} />} />
-					<Route
-						// Redirect unauthenticated users to the Signup page for any other paths
-						path="/*"
-						element={<Navigate to="/signup" />}
-					/>
-				</>
-			)}
+			{isAuthenticated
+				? authenticatedRoutes.map(({ path, element, layoutOpts }) => (
+						<Route
+							key={path}
+							path={path}
+							element={<Layout options={layoutOpts}>{element}</Layout>}
+						/>
+				  ))
+				: loggedOutRoutes.map(({ path, element, layoutOpts }) => (
+						<Route
+							key={path}
+							path={path}
+							element={<Layout options={layoutOpts}>{element}</Layout>}
+						/>
+				  ))}
 		</Routes>
 	);
 };

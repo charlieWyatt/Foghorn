@@ -20,3 +20,8 @@ export function useCurrentUser() {
 
 	return currentUser;
 }
+
+export function logout() {
+	localStorage.removeItem("token");
+	window.location.reload();
+  }

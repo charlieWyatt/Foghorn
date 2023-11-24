@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useCurrentUser } from "../auth/useCurrentUser";
+import { logout, useCurrentUser } from "../auth/useCurrentUser";
 import { FunkyButton } from "./FunkyButton";
 
 export const SmallHeader = ({
@@ -29,6 +29,7 @@ export const SmallHeader = ({
 				<div className="space-x-2 flex items-center">
 					{user ? (
 						<>
+							<FunkyButton onClick={logout}>Logout</FunkyButton>
 							<Link to={`/s/${user.username}`}>
 								<FunkyButton>{user.username}</FunkyButton>
 							</Link>
