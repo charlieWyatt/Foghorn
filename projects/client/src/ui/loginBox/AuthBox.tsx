@@ -11,7 +11,7 @@ export const LoginBox: React.FC = () => {
 	const [isSignUp, setIsSignUp] = useState(false);
 
 	const loginMutation = trpc.user.login.useMutation();
-	const signUpMutation = trpc.user.signUp.useMutation();
+	const signUpMutation = trpc.user.signup.useMutation();
 
 	const toggleSignUp = () => {
 		setIsSignUp(!isSignUp);

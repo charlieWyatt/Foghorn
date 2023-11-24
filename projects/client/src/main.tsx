@@ -2,11 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "./routes/AuthContext";
+import { useCurrentUser } from "./auth/useCurrentUser";
 import { Home } from "./routes/Home";
 import { Layout } from "./Layout.tsx";
-import { Login } from "./routes/Login";
-import SignUp from "./routes/SignUp";
+import { Auth } from "./routes/Auth.tsx";
 import { ApiProvider } from "./rpc/ApiProvider.tsx";
 
 type Route = {
@@ -26,7 +25,7 @@ const routes: Route[] = [
 	},
 	{
 		path: "/login",
-		element: <Login />,
+		element: <Auth isSignup={false} />,
 		layoutOpts: {
 			noHeader: true,
 			noPadding: true,
@@ -36,7 +35,7 @@ const routes: Route[] = [
 ];
 
 const AppContent: React.FC = () => {
-	const { isAuthenticated } = useAuth();
+	const isAuthenticated = useCurrentUser();
 
 	return (
 		<Routes>
@@ -50,8 +49,7 @@ const AppContent: React.FC = () => {
 				))
 			) : (
 				<>
-					<Route path="/signup" element={<SignUp />} />
-					<Route path="/login" element={<Login />} />
+					<Route path="/login" element={<Auth isSignup={false} />} />
 					<Route
 						// Redirect unauthenticated users to the Signup page for any other paths
 						path="/*"
@@ -68,9 +66,7 @@ const App: React.FC = () => {
 		<React.StrictMode>
 			<BrowserRouter basename="/">
 				<ApiProvider>
-					<AuthProvider>
-						<AppContent />
-					</AuthProvider>
+					<AppContent />
 				</ApiProvider>
 			</BrowserRouter>
 		</React.StrictMode>

@@ -6,7 +6,7 @@ import { protectedProcedure, publicProcedure, router } from "../../trpc";
 import { createToken } from "../auth/jwt";
 
 export const userRouter = router({
-	signUp: publicProcedure
+	signup: publicProcedure
 		.input(
 			z.object({
 				username: z.string().min(3),
