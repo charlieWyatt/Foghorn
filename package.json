@@ -1,0 +1,33 @@
+{
+	"name": "foghorn",
+	"version": "1.0.0",
+	"private": true,
+	"workspaces": [
+		"projects/**"
+	],
+	"scripts": {
+		"build": "./node_modules/.bin/tsc --build",
+		"build:force": "yarn build --force",
+		"build:watch": "yarn build --watch",
+		"build:client": "yarn workspace @foghorn/client build",
+		"build:server": "yarn workspace @foghorn/server build",
+		"run:client": "yarn workspace @foghorn/client dev",
+		"run:server": "yarn workspace @foghorn/server dev",
+		"tidy": "npm-run-all -l -n 'build' 'tidy:lint:fix' 'tidy:*'",
+		"tidy:format": "prettier --write .",
+		"tidy:format:check": "prettier --check .",
+		"tidy:lint:check": "eslint . --ext .ts,.tsx --max-warnings=0",
+		"tidy:lint:fix": "eslint . --ext .ts,.tsx --max-warnings=0 --fix",
+		"tidy:depcheck": "yarn workspaces foreach -v exec yarn exec depcheck",
+		"tidy:syncpack": "yarn syncpack list-mismatches",
+		"tidy:syncpack:fix": "yarn syncpack fix-mismatches",
+		"test:server": "yarn workspace @foghorn/server test",
+		"test:client": "yarn workspace @foghorn/client test",
+		"test": "yarn test:server && yarn test:client"
+	},
+	"main": "index.js",
+	"license": "MIT",
+	"devDependencies": {
+		"prisma": "^5.6.0"
+	}
+}
